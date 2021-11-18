@@ -35,7 +35,7 @@ def getnext(item):
     totry = getlegal(dot, item)
     return [substitute(x, dot, item) for x in totry]
 
-def solve(puzzle) :
+def solutions(puzzle) :
     stack = []
     stack.append(puzzle)
     n = 0
@@ -45,13 +45,14 @@ def solve(puzzle) :
         print('Iteration {}, Stack size is {}'.format(n, len(stack)))
         item = stack.pop()
         if solved(item) :
-            return item
+            yield item
 
         next = getnext(item)
         stack.extend(next)
 
-    return 'Nothing!!'*9
-
+def solve(puzzle) :
+    return next(solutions(puzzle), 'Nothing!!'*9)
+    
 def prettyprint(puzzle) :
     lines = [puzzle[x:x+9] for x in range(0,81,9)]
     for x in range(9):
@@ -65,8 +66,8 @@ def prettyprint(puzzle) :
     print('| --------------------- |')
 
 
-##TESTCASE = '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
-TESTCASE = '123456789' + '.' * 72
+TESTCASE = '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
+##TESTCASE = '123456789' + '.' * 72
 
 if __name__ == '__main__' :
     prettyprint(solve(TESTCASE))
