@@ -1,4 +1,6 @@
 
+import random
+
 TRACE = False
 
 def solved(puzzle) :
@@ -20,11 +22,10 @@ def getblk(pos, item) :
     return set(item[start:start+3] + item[start+9:start+12] + item[start+18:start+21])
 
 def getlegal(pos, item) :
-    legal = set('123456789')
-    legal.difference_update(getrow(pos, item))
-    legal.difference_update(getcol(pos, item))
-    legal.difference_update(getblk(pos, item))
-    return legal
+    return (set('123456789')
+        .difference(getrow(pos, item))
+        .difference(getcol(pos, item))
+        .difference(getblk(pos, item)))
 
 def substitute(new, pos, item) :
     return item[:pos] + new + item[pos+1:]
@@ -34,7 +35,8 @@ def getnext(item):
     if dot < 0 :
         return []
 
-    totry = getlegal(dot, item)
+    totry = list(getlegal(dot, item))
+    random.shuffle(totry)
     return [substitute(x, dot, item) for x in totry]
 
 def solutions(puzzle) :
@@ -70,8 +72,9 @@ def prettyprint(puzzle) :
     print('| --------------------- |')
 
 
-TESTCASE = '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
+##TESTCASE = '53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79'
 ##TESTCASE = '123456789' + '.' * 72
+TESTCASE = '.' * 81
 
 if __name__ == '__main__' :
     prettyprint(solve(TESTCASE))
