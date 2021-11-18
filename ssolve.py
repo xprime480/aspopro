@@ -1,4 +1,6 @@
 
+TRACE = False
+
 def solved(puzzle) :
     return puzzle.find('.') < 0
 
@@ -42,7 +44,9 @@ def solutions(puzzle) :
 
     while stack:
         n += 1
-        print('Iteration {}, Stack size is {}'.format(n, len(stack)))
+        if TRACE :
+            print('Iteration {}, Stack size is {}, progress is {}'.format(n, len(stack), 81 - stack[-1].count('.')))
+
         item = stack.pop()
         if solved(item) :
             yield item
