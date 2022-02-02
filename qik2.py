@@ -1,11 +1,15 @@
+import os
 import sys
 import qik
 
 if __name__ == '__main__' :
     total = 512
+    path = "./qikqik"
 
     if len(sys.argv) > 1:
         total = int(sys.argv[1])
+    if len(sys.argv) > 2:
+        path = sys.argv[2]
 
     iters = []
     while total > 1:
@@ -18,8 +22,15 @@ if __name__ == '__main__' :
         for i in [max(p[:2]) for p in iters[x]] :
             iters[x-1][i-1].append('*')
 
+    if os.path.exists(path) :
+        if os.path.isdir(path) :
+            pass
+        else :
+            raise Exception("path {} exists and is not a directory".format(path))
+    else :
+        os.mkdir(path)
+
     idx = 0
-    subdir = "qikqik"
     for i,l in enumerate(iters) :
-        with open("./qikqik/round{}.txt".format(1+i), "w") as fh :
+        with open("{}/round{}.txt".format(path,1+i), "w") as fh :
             qik.format(l, fh)
