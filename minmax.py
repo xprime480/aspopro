@@ -5,7 +5,6 @@ import ong
 def execute_one(length, progressive=False) :
     data = list(range(1, length+1))
     pairs = ong.ong(data[:])
-    minval,maxval = length, 0
     vals = []
 
     for p in pairs :
